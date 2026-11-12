@@ -8,7 +8,10 @@ def main() -> None:
             if not url:
                 continue
             
-            print(check_uptime(url))
+            try:
+                print(check_uptime(url))
+            except requests.ConnectionError:
+                print(f"The website {url} is not reachable.")
 
 def check_uptime(url):
     response = requests.get(url, timeout=5)
