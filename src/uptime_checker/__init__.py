@@ -1,5 +1,7 @@
 import requests
 
+TIMEOUT = 5
+
 
 def main() -> None:
     with open("urls.txt") as file:
@@ -7,12 +9,18 @@ def main() -> None:
             url = url.strip()
             if not url:
                 continue
-            
+
             try:
-                print(check_uptime(url))
+                status_code, time_elapsed = check_uptime(url)
+                print(
+                    f"The website {url} responded with status code {status_code} and took {time_elapsed * 1000:.0f} milliseconds to reply."
+                )
             except requests.ConnectionError:
                 print(f"The website {url} is not reachable.")
+            except requests.ReadTimeout:
+                print(f"The website {url} took longer than {TIMEOUT} seconds to reply.")
+
 
 def check_uptime(url):
-    response = requests.get(url, timeout=5)
+    response = requests.get(url, timeout=TIMEOUT)
     return response.status_code, response.elapsed.total_seconds()
