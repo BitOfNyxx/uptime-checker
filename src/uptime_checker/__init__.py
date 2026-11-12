@@ -23,6 +23,6 @@ def main() -> None:
                 print(f"The lookup of {url} failed due to an error. {e}")
 
 
-def check_uptime(url):
+def check_uptime(url: str) -> tuple[int, float]:
     response = requests.get(url, timeout=TIMEOUT)
     return response.status_code, response.elapsed.total_seconds()
