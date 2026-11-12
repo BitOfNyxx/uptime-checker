@@ -2,5 +2,6 @@
 https://icanhazip.com/
 https://wms.co.uk
 https://google.com
+htps://google.com
 https://this-does-not-exist.invalid
 https://httpbin.org/delay/10

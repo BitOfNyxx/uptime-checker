@@ -19,6 +19,8 @@ def main() -> None:
                 print(f"The website {url} is not reachable.")
             except requests.ReadTimeout:
                 print(f"The website {url} took longer than {TIMEOUT} seconds to reply.")
+            except requests.RequestException as e:
+                print(f"The lookup of {url} failed due to an error. {e}")
 
 
 def check_uptime(url):
