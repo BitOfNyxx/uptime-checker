@@ -76,6 +76,6 @@ Each request times out after 5 seconds.
 - [x] Store results in SQLite
 - [x] Status page with 24-hour uptime
 - [x] Docker Compose
-- [ ] GitHub Actions
+- [x] GitHub Actions
 - [ ] Local Kubernetes (kind/k3d)
 - [ ] Terraform
