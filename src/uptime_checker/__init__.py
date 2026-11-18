@@ -17,7 +17,10 @@ def main() -> None:
 
             status_code, time_elapsed, error = check_uptime(url)
             checked_at = datetime.now(UTC).isoformat()
-            connection.execute("INSERT INTO checks (url, checked_at, status_code, response_time, error) VALUES (?, ?, ?, ?, ?)", (url, checked_at, status_code, time_elapsed, error))
+            connection.execute(
+                "INSERT INTO checks (url, checked_at, status_code, response_time, error) VALUES (?, ?, ?, ?, ?)",
+                (url, checked_at, status_code, time_elapsed, error),
+            )
             if error:
                 print(error)
                 continue
