@@ -17,7 +17,7 @@ def main() -> None:
         time.sleep(CHECK_INTERVAL)
 
 
-def run_checks(connection) -> None:
+def run_checks(connection: sqlite3.Connection) -> None:
     with open("urls.txt") as file:
         for url in file:
             url = url.strip()
