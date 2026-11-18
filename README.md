@@ -1,5 +1,7 @@
 # uptime-checker
 
+[![CI](https://github.com/BitOfNyxx/uptime-checker/actions/workflows/ci.yml/badge.svg)](https://github.com/BitOfNyxx/uptime-checker/actions/workflows/ci.yml)
+
 Checks a list of URLs and reports whether each site is up, with its status code and response time. Results are saved to SQLite and shown on a small status page with each site's latest check and 24-hour uptime.
 
 A learning project: it starts as a small Python script and grows into a containerised service with CI, Kubernetes and Terraform.
@@ -41,6 +43,22 @@ The checker runs until you stop it with Ctrl+C. In another terminal, start the s
 
 ```
 uv run gunicorn --bind 0.0.0.0:8000 uptime_checker.web:app
+```
+
+## Checks
+
+Every pull request runs a GitHub Actions workflow (`.github/workflows/ci.yml`) with three jobs:
+
+- **lint** runs `ruff check` and `ruff format --check`
+- **test** runs the pytest tests in `tests/`
+- **build** builds the Docker image, but only after lint and test pass
+
+To run the same checks locally:
+
+```
+uv run ruff check
+uv run ruff format --check
+uv run pytest
 ```
 
 ## Settings
