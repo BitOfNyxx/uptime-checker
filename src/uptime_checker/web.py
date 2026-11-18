@@ -1,6 +1,6 @@
 import sqlite3
 
-from flask import Flask
+from flask import Flask, render_template
 
 from uptime_checker import DATABASE_NAME
 
@@ -9,11 +9,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home() -> str:
-    rows = get_latest_checks()
-    lines = []
-    for url, checked_at, status_code, response_time, error in rows:
-        lines.append(f"{url} - {status_code} - {error}")
-    return "<br>".join(lines)
+    return render_template("index.html", rows=get_latest_checks())
 
 
 def get_latest_checks() -> list[tuple]:

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Uptime Checker</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 0.4rem 0.8rem; text-align: left; }
+    th { background: #f0f0f0; }
+    .up { color: green; }
+    .down { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Uptime Checker</h1>
+  <table>
+    <tr>
+      <th>URL</th>
+      <th>Status</th>
+      <th>Code</th>
+      <th>Response time</th>
+      <th>Last checked</th>
+    </tr>
+    {% for url, checked_at, status_code, response_time, error in rows %}
+    <tr>
+      <td>{{ url }}</td>
+      <td>
+        {% if error %}Down ({{ error }}){% else %}Up{% endif %}
+      </td>
+      <td>{{ status_code }}</td>
+      <td>
+        {% if response_time %}{{ (response_time * 1000) | round | int }} ms{% endif %}
+      </td>
+      <td>{{ checked_at }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
