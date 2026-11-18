@@ -1,10 +1,11 @@
+import os
 import sqlite3
 from datetime import UTC, datetime
 
 import requests
 
 TIMEOUT = 5
-DATABASE_NAME = "uptime.db"
+DATABASE_NAME = os.environ.get("UPTIME_DB", "uptime.db")
 
 
 def main() -> None:
