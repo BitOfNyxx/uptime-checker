@@ -1,0 +1,6 @@
+.git
+.venv
+.devcontainer
+.ruff_cache
+__pycache__
+*.db

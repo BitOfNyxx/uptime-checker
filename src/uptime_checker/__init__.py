@@ -1,14 +1,23 @@
+import os
 import sqlite3
+import time
 from datetime import UTC, datetime
 
 import requests
 
 TIMEOUT = 5
-DATABASE_NAME = "uptime.db"
+DATABASE_NAME = os.environ.get("UPTIME_DB", "uptime.db")
+CHECK_INTERVAL = int(os.environ.get("CHECK_INTERVAL", "60"))
 
 
 def main() -> None:
     connection = init_db()
+    while True:
+        run_checks(connection)
+        time.sleep(CHECK_INTERVAL)
+
+
+def run_checks(connection: sqlite3.Connection) -> None:
     with open("urls.txt") as file:
         for url in file:
             url = url.strip()
@@ -36,7 +45,6 @@ def main() -> None:
                 f"The site, {url} returned status code {status_code} and took {time_elapsed * 1000:.0f} milliseconds to respond."
             )
     connection.commit()
-    connection.close()
 
 
 def check_uptime(url: str) -> tuple[int | None, float | None, str | None]:
