@@ -1,8 +1,7 @@
 import sqlite3
+from datetime import UTC, datetime, timedelta
 
 from flask import Flask, render_template
-
-from datetime import UTC, datetime, timedelta
 
 from uptime_checker import DATABASE_NAME
 
