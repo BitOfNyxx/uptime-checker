@@ -18,6 +18,8 @@ def home() -> str:
 
 def get_latest_checks() -> list[tuple]:
     connection = sqlite3.connect(DATABASE_NAME)
-    results = connection.execute("SELECT url, MAX(checked_at), status_code, response_time, error FROM checks GROUP BY url").fetchall()
+    results = connection.execute(
+        "SELECT url, MAX(checked_at), status_code, response_time, error FROM checks GROUP BY url"
+    ).fetchall()
     connection.close()
     return results
