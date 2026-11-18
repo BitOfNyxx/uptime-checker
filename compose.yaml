@@ -1,0 +1,27 @@
+services:
+  checker:
+    build: .
+    environment:
+      UPTIME_DB: /data/uptime.db
+      CHECK_INTERVAL: "60"
+    volumes:
+      - uptime-data:/data
+      - ./urls.txt:/app/urls.txt:ro
+    init: true
+    restart: unless-stopped
+
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 uptime_checker.web:app
+    environment:
+      UPTIME_DB: /data/uptime.db
+    volumes:
+      - uptime-data:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - checker
+    restart: unless-stopped
+
+volumes:
+  uptime-data:
