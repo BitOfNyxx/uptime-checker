@@ -4,5 +4,5 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def home() -> None:
+def home() -> str:
     return "Uptime Checker"
