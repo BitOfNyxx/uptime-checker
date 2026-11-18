@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import UTC, datetime
 
 import requests
 
@@ -7,7 +8,7 @@ DATABASE_NAME = "uptime.db"
 
 
 def main() -> None:
-    init_db()
+    connection = init_db()
     with open("urls.txt") as file:
         for url in file:
             url = url.strip()
@@ -15,6 +16,8 @@ def main() -> None:
                 continue
 
             status_code, time_elapsed, error = check_uptime(url)
+            checked_at = datetime.now(UTC).isoformat()
+            connection.execute("INSERT INTO checks (url, checked_at, status_code, response_time, error) VALUES (?, ?, ?, ?, ?)", (url, checked_at, status_code, time_elapsed, error))
             if error:
                 print(error)
                 continue
@@ -22,6 +25,8 @@ def main() -> None:
             print(
                 f"The site, {url} returned status code {status_code} and took {time_elapsed * 1000:.0f} milliseconds to respond."
             )
+    connection.commit()
+    connection.close()
 
 
 def check_uptime(url: str) -> tuple[int | None, float | None, str | None]:
