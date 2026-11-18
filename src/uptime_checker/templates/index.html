@@ -20,18 +20,20 @@
       <th>Status</th>
       <th>Code</th>
       <th>Response time</th>
+      <th>Uptime (24h)</th>
       <th>Last checked</th>
     </tr>
     {% for url, checked_at, status_code, response_time, error in rows %}
     <tr>
       <td>{{ url }}</td>
       <td>
-        {% if error %}Down ({{ error }}){% else %}Up{% endif %}
+        {% if error %}<span class="down">Down ({{ error }})</span>{% else %}<span class="up">Up</span>{% endif %}
       </td>
-      <td>{{ status_code }}</td>
+      <td>{{ status_code or "" }}</td>
       <td>
         {% if response_time %}{{ (response_time * 1000) | round | int }} ms{% endif %}
       </td>
+      <td>{% if url in uptime %}{{ uptime[url] }}%{% endif %}</td>
       <td>{{ checked_at }}</td>
     </tr>
     {% endfor %}
