@@ -22,7 +22,14 @@ def main() -> None:
                 (url, checked_at, status_code, time_elapsed, error),
             )
             if error:
-                print(error)
+                if error == "unreachable":
+                    print(f"The website {url} is not reachable.")
+                elif error == "timeout":
+                    print(
+                        f"The website {url} took longer than {TIMEOUT} seconds to reply."
+                    )
+                else:
+                    print(f"The lookup of {url} failed due to an error. {error}")
                 continue
 
             print(
@@ -36,15 +43,11 @@ def check_uptime(url: str) -> tuple[int | None, float | None, str | None]:
     try:
         response = requests.get(url, timeout=TIMEOUT)
     except requests.ConnectionError:
-        return None, None, f"The website {url} is not reachable."
+        return None, None, "unreachable"
     except requests.ReadTimeout:
-        return (
-            None,
-            None,
-            f"The website {url} took longer than {TIMEOUT} seconds to reply.",
-        )
+        return None, None, "timeout"
     except requests.RequestException as e:
-        return None, None, f"The lookup of {url} failed due to an error. {e}"
+        return None, None, f"error: {e}"
     return response.status_code, response.elapsed.total_seconds(), None
 
 
